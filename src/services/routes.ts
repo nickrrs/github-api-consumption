@@ -18,7 +18,27 @@ route.get('/me', async (req: Request, res: Response) => {
 route.get('/users', async (req: Request, res: Response) => {
   try {
     const data = await githubApiService.listUsers(req, res);
-    return res.json(data);
+    return data;
+  } catch (e) {
+    console.error('Error while listing users:', e);
+    return res.status(500).json({ error: 'Error while listing users', message: e });
+  }
+});
+
+route.get('/users/:username/details', async (req: Request, res: Response) => {
+  try {
+    const data = await githubApiService.fetchUser(req, res);
+    return data;
+  } catch (e) {
+    console.error('Error while listing users:', e);
+    return res.status(500).json({ error: 'Error while listing users', message: e });
+  }
+});
+
+route.get('/users/:username/repos', async (req: Request, res: Response) => {
+  try {
+    const data = await githubApiService.fetchUserRepos(req, res);
+    return data;
   } catch (e) {
     console.error('Error while listing users:', e);
     return res.status(500).json({ error: 'Error while listing users', message: e });

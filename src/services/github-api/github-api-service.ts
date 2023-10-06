@@ -1,11 +1,12 @@
 import { Request, Response, response } from "express";
 import { Octokit, App } from "octokit";
+import { env } from "process";
 
 export default class GithubApiService {
     private readonly octokitApi;
     constructor(){
         this.octokitApi = new Octokit({
-            auth: `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`
+            auth: process.env.GITHUB_PERSONAL_ACCESS_TOKEN
         });
     }
 
@@ -25,5 +26,21 @@ export default class GithubApiService {
             users: data.data,
             nextPageLink: (nextPageLink && nextPageLink[1] ? nextPageLink[1] : 'Next Page URL not found in the response')
         });
+    }
+
+    async fetchUser(req: Request, res: Response){
+        const {username} = req.params;
+        const data = await this.octokitApi.rest.users.getByUsername({username: username});
+        return res.json({
+            details: data.data,
+        });
+    }
+
+    async fetchUserRepos(req: Request, res: Response){
+        const {username} = req.params;
+        const data = await this.octokitApi.rest.repos.listForUser({username: username});
+        return res.json({
+            repositories: data.data
+        })
     }
 }
