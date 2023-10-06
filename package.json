@@ -1,0 +1,25 @@
+{
+  "name": "github-api-consumption",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "repository": "https://github.com/nickrrs/luxmarble-api",
+  "author": "Nickolas Ribeiro <nickolasleosantos@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "build": "tsc && copyfiles src/templates/*.html dist/"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "octokit": "^3.1.1"
+  },
+  "devDependencies": {
+    "@octokit/types": "^12.0.0",
+    "@types/express": "^4.17.18",
+    "@types/node": "^20.8.2",
+    "cross-env": "^7.0.3",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1"
+  }
+}
