@@ -2,7 +2,7 @@
   "name": "github-api-consumption",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "repository": "https://github.com/nickrrs/luxmarble-api",
+  "repository": "https://github.com/nickrrs/github-api-consumption",
   "author": "Nickolas Ribeiro <nickolasleosantos@gmail.com>",
   "license": "MIT",
   "scripts": {
