@@ -3,21 +3,17 @@ import { App } from '../server/app';
 
 
 describe('APIs Endpoint Tests:', () => {
-  let app: any;
-  let request: any;
+  let app = new App().server;
+  let request = supertest;
   
-  beforeAll(() => {
-     app = new App().server;
-     request = supertest;
+  // Teste for endpoint /api/users?since={number}
+  it('Should return a list of GitHub users and a link to the next page.', async () => {
+    const response = await request(app).get('/api/users?since=1');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('users');
+    expect(response.body.users.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty('nextPageLink');
   });
-  
-  // // Teste para o endpoint /api/users?since={number}
-  // it('Deve retornar uma lista de usuários do GitHub e um link para a próxima página', async () => {
-  //   const response = await request(app).get('/api/users?since=1');
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('users');
-  //   expect(response.body).toHaveProperty('nextPageLink');
-  // });
 
   // Test for endpoint /api/users/:username/details
   // For this test i've provided some of my personal github info:
@@ -30,15 +26,17 @@ describe('APIs Endpoint Tests:', () => {
     expect(response.status).toBe(200);
     expect(response.body.details).toHaveProperty('login', username);
     expect(response.body.details).toHaveProperty('name', 'Nickolas Ribeiro ');
-    // Add more info if it's necessary..
+    // Add more info if you want to..
   });
 
-  // // Teste para o endpoint /api/users/:username/repos
-  // it('Deve retornar uma lista de repositórios de um usuário do GitHub', async () => {
-  //   const username = 'exampleUser';
-  //   const response = await request(app).get(`/api/users/${username}/repos`);
-  //   expect(response.status).toBe(200);
-  //   expect(response.body).toHaveProperty('repositories');
-  //   // Adicione mais verificações conforme necessário
-  // });
+  // Teste for endpoint /api/users/:username/repos
+  // For this test i've provided some of my personal github info:
+  it('Should return a list of repositories of the given Github owner', async () => { 
+    const username = 'nickrrs';
+    const response = await request(app).get(`/api/users/${username}/repos`);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('repositories');
+    expect(response.body.repositories.length).toBeGreaterThan(0);
+    // Add more info if you want to..
+  });
 });
